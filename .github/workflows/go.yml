@@ -18,9 +18,19 @@ jobs:
         goos: [linux, windows, darwin] # 需要打包的系统
         goarch: [amd64, arm64] # 需要打包的架构
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
 
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
         go-version: '1.20'
+    - name: Download dependencies
+      run: go mod download
+    - name: Build
+      run: go build -v -o snow .
+        # 指定编译时的环境变量
+      env:
+        GOOS: ${{ matrix.goos }}
+        GOARCH: ${{ matrix.goarch }}
+        CGO_ENABLED: 0
