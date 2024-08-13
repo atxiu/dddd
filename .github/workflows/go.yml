@@ -22,7 +22,8 @@ jobs:
         go-version: '1.20'
 
     - name: Build
-      run: go build -v ./...
+      run: GOOS=linux GOARCH=amd64 go build -ldflags= -s -w -trimpath -o dddd_linux64 main.go
+upx -9 dddd_linux64
 
     - name: Test
       run: go test -v ./...
