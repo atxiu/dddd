@@ -13,13 +13,18 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin] # 需要打包的系统
+        goarch: [amd64, arm64] # 需要打包的架构
     steps:
     - uses: actions/checkout@v4
 
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.20'
+        go-version: '1.23'
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
       run: GOOS=linux GOARCH=amd64 go build -ldflags= -s -w -trimpath -o dddd_linux64 main.go
